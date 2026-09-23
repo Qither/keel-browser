@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+.env*
+!.env.example
+.keel-browser/
+artifacts/
+/.codex
+/.claude
+/.mcp.json
+/integrations/

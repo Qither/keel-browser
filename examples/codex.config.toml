@@ -1,0 +1,10 @@
+# Portable generation guide; this file intentionally contains no runnable server table.
+# Build the package, then run from its installation directory:
+#   node dist/cli.js integration codex
+# The JSON result's `toml` field is the actual [mcp_servers.keel_browser] table.
+# It uses the current Node executable and installed script location, with --client codex.
+# Save it under the keel runtime directory's integrations/codex.toml, then merge only
+# that table into the desired Codex configuration and preserve all other settings.
+# A generated project .codex/config.toml is local and git-ignored.
+# Regenerate after moving the installation; do not commit generated personal paths.
+# Credentials stay in MultiZen's existing local token file or the optional environment.

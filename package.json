@@ -1,0 +1,30 @@
+{
+  "name": "keel-browser",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A shared browser router with client-bound MultiZen profiles.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=22.18" },
+  "packageManager": "pnpm@10.2.0",
+  "bin": { "keel-browser": "dist/cli.js" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:browser": "pnpm build && node scripts/browser-smoke.mjs",
+    "test:live": "pnpm build && node scripts/live-multizen-smoke.mjs",
+    "start": "node dist/cli.js",
+    "mcp": "node dist/mcp.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "playwright-core": "^1.58.2",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.15",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

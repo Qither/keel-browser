@@ -1,0 +1,13 @@
+{
+  "provider": "multizen",
+  "mcpUrl": "http://127.0.0.1:7777/mcp",
+  "tokenEnv": "MULTIZEN_MCP_TOKEN",
+  "profiles": {
+    "codex": { "name": "codex" },
+    "claude": { "name": "claude" }
+  },
+  "cliIdleMs": 1800000,
+  "mcpLeaseMs": 120000,
+  "operationTimeoutMs": 15000,
+  "providerTimeoutMs": 30000
+}
