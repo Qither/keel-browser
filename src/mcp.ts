@@ -6,7 +6,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { BrowserClient } from './client.js';
-import { parseClientId, profileForClient, safeError, type ClientId } from './contracts.js';
+import { parseClientId, profileForClient, safeError, VERSION, type ClientId } from './contracts.js';
 
 export interface BrowserAdapter {
   call(method: string, params?: Record<string, unknown>): Promise<unknown>;
@@ -53,7 +53,7 @@ function toolResult(result: unknown, method: string): CallToolResult {
 export function createMcpServer(client: BrowserAdapter, clientId: ClientId = 'codex'): McpServer {
   const selected = parseClientId(clientId);
   const profileAlias = profileForClient(selected);
-  const server = new McpServer({ name: 'keel-browser', version: '0.1.0' }, {
+  const server = new McpServer({ name: 'keel-browser', version: VERSION }, {
     instructions: `Use only this router for browser work. This ${selected} instance uses the existing MultiZen ${profileAlias} profile; tasks using that profile share login state. Open a session, use its returned sessionId and tabId, and close it when finished. A session cannot access other sessions’ tabs. Never retry a timed-out mutation automatically.`,
   });
   for (const definition of toolDefinitions) {

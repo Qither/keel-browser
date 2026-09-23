@@ -1,7 +1,7 @@
 {
   "name": "keel-browser",
   "description": "Route browser actions through the local MultiZen claude profile.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "name": "Qither",
     "url": "https://github.com/Qither"

@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
-import { KeelError, type KeelConfig, type ProfileAlias, type ProfileBinding } from './contracts.js';
+import { KeelError, VERSION, type KeelConfig, type ProfileAlias, type ProfileBinding } from './contracts.js';
 
 export interface ProfileInspection { profileId: string; name: string; status: 'Active' | 'Inactive' }
 export interface ConnectionInfo { profileId: string; name: string; cdpEndpoint: string }
@@ -85,7 +85,7 @@ const createNativeClient: NativeMcpClientFactory = (url, token, timeoutMs) => {
     requestInit: { headers: { Authorization: `Bearer ${token}` }, redirect: 'error' },
     reconnectionOptions: { maxRetries: 0, initialReconnectionDelay: 1000, maxReconnectionDelay: 1000, reconnectionDelayGrowFactor: 1 },
   });
-  const client = new Client({ name: 'keel-browser-provider', version: '0.1.0' });
+  const client = new Client({ name: 'keel-browser-provider', version: VERSION });
   return {
     connect: signal => client.connect(transport, { timeout: timeoutMs, signal }),
     callTool: (name, args, signal) => client.callTool({ name, arguments: args }, undefined, { timeout: timeoutMs, signal }),

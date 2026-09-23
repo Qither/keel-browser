@@ -1,3 +1,10 @@
+import { createRequire } from 'node:module';
+
+// Single source of truth for the published version, so a release bump never
+// leaves the MCP handshake reporting a stale number. `dist/` sits one level
+// below the package root in both a source checkout and an npm install.
+export const VERSION: string = createRequire(import.meta.url)('../package.json').version;
+
 export const CLIENT_IDS = ['codex', 'claude-cli', 'claude-desktop'] as const;
 export type ClientId = typeof CLIENT_IDS[number];
 export type ProfileAlias = 'codex' | 'claude';
