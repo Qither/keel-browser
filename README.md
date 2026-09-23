@@ -12,6 +12,8 @@ keel-browser calls only MultiZen's native `list_profiles` and idempotent `launch
 
 You need Node.js 22.18 or later, pnpm, and a running local MultiZen application. The verified MultiZen 0.3.1 setup exposes its native MCP endpoint at `http://127.0.0.1:7777/mcp`. The project uses `playwright-core` to connect to an existing browser; no Playwright browser download is required.
 
+This section builds from source. To register the published package instead, without a clone or a build, see [Client integration and portable paths](#client-integration-and-portable-paths).
+
 Run these commands from the project directory:
 
 ```powershell
@@ -106,7 +108,32 @@ node dist/cli.js broker stop
 
 ## Client integration and portable paths
 
-The standard entry point is a local stdio MCP server. Source code and versioned templates contain no personal drive paths, absolute project paths, or real profile IDs. Absolute paths required to start clients are generated from the current installation. Run these commands from the built installation directory:
+The standard entry point is a local stdio MCP server, registered either from the published package or from a local build. A remote URL is not an option: the Router connects to MultiZen over loopback and drives a browser on the same machine.
+
+### Published package
+
+`npx` starts the server without a clone, a build, or an absolute path in client configuration. The machine still needs Node.js 22.18 or later, a running MultiZen application with its native MCP endpoint enabled, and the existing profile for the selected client. Publishing removes the installation step, not the local dependency.
+
+```powershell
+$keelEntry = '{"command":"npx","args":["-y","keel-browser@0.1.0","mcp","--client","claude-cli"]}'
+claude mcp add-json --scope user keel_browser $keelEntry
+npx -y keel-browser@0.1.0 doctor --client claude-cli
+```
+
+Pin an exact version so that one registration maps to one implementation, and raise it deliberately. `doctor` checks the environment without starting a browser. For Codex, put the same `command` and `args` into `.codex/config.toml` under `[mcp_servers.keel_browser]`.
+
+Claude Code can also install the same entry as a plugin:
+
+```text
+/plugin marketplace add Qither/keel-browser
+/plugin install keel-browser@keel-browser
+```
+
+The plugin is a thin shell: its manifest in `plugins/keel-browser/` pins the package version and `--client claude-cli`, and the implementation stays in the published package. See the [plugin README](plugins/keel-browser/README.md). Installing the plugin and registering the server manually produces two entries for the same server; choose one.
+
+### Local build
+
+Source code and versioned templates contain no personal drive paths, absolute project paths, or real profile IDs. Absolute paths required to start clients are generated from the current installation. Run these commands from the built installation directory:
 
 ```powershell
 node dist/cli.js integration codex

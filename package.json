@@ -1,13 +1,19 @@
 {
   "name": "keel-browser",
   "version": "0.1.0",
-  "private": true,
   "description": "A shared browser router with client-bound MultiZen profiles.",
   "type": "module",
   "license": "MIT",
+  "author": "Qither",
+  "homepage": "https://github.com/Qither/keel-browser#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/Qither/keel-browser.git" },
+  "bugs": { "url": "https://github.com/Qither/keel-browser/issues" },
+  "keywords": ["mcp", "model-context-protocol", "browser", "multizen", "claude-code", "codex", "cdp", "playwright"],
   "engines": { "node": ">=22.18" },
   "packageManager": "pnpm@10.2.0",
   "bin": { "keel-browser": "dist/cli.js" },
+  "files": ["dist", "examples/config.json", "AGENTS.md", "CLAUDE.md"],
+  "publishConfig": { "access": "public" },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -15,7 +21,8 @@
     "test:browser": "pnpm build && node scripts/browser-smoke.mjs",
     "test:live": "pnpm build && node scripts/live-multizen-smoke.mjs",
     "start": "node dist/cli.js",
-    "mcp": "node dist/mcp.js"
+    "mcp": "node dist/mcp.js",
+    "prepublishOnly": "pnpm test && pnpm build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.1",

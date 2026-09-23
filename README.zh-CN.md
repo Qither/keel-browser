@@ -12,6 +12,8 @@ keel-browser 只调用 MultiZen 原生 MCP 的 `list_profiles` 和已绑定 ID �
 
 需要 Node.js 22.18 或以上、pnpm，以及本机正在运行的 MultiZen。本机 MultiZen 0.3.1 原生 MCP 地址为 `http://127.0.0.1:7777/mcp`。项目使用 `playwright-core` 连接已有浏览器，不需要下载 Playwright 浏览器。
 
+本节从源码构建。若希望直接注册已发布的包、无需克隆与构建，见[客户端接入与可移植路径](#客户端接入与可移植路径)。
+
 在项目目录运行：
 
 ```powershell
@@ -106,7 +108,32 @@ node dist/cli.js broker stop
 
 ## 客户端接入与可移植路径
 
-标准入口是本地 stdio MCP。代码和版本化模板不包含个人盘符、项目绝对路径或真实 profile ID；客户端启动所需的绝对路径由当前安装位置生成。在构建后的安装目录运行：
+标准入口是本地 stdio MCP，既可以从已发布的包注册，也可以从本地构建注册。远程 URL 不是可选项：Router 通过 loopback 连接 MultiZen，并驱动同一台机器上的浏览器。
+
+### 已发布的包
+
+`npx` 无需克隆、构建，也无需在客户端配置中写绝对路径即可启动服务器。机器仍需要 Node.js 22.18 或更高版本、正在运行且已启用原生 MCP 端点的 MultiZen 应用，以及所选客户端对应的既有 profile。发布省去的是安装步骤，而非本机依赖。
+
+```powershell
+$keelEntry = '{"command":"npx","args":["-y","keel-browser@0.1.0","mcp","--client","claude-cli"]}'
+claude mcp add-json --scope user keel_browser $keelEntry
+npx -y keel-browser@0.1.0 doctor --client claude-cli
+```
+
+固定确切版本，使一次注册对应一个实现版本，并在需要时主动抬升。`doctor` 在不启动浏览器的情况下检查环境。Codex 则把相同的 `command` 与 `args` 写入 `.codex/config.toml` 的 `[mcp_servers.keel_browser]`。
+
+Claude Code 还可以按插件方式安装同一入口：
+
+```text
+/plugin marketplace add Qither/keel-browser
+/plugin install keel-browser@keel-browser
+```
+
+插件只是一层薄壳：`plugins/keel-browser/` 中的清单固定包版本与 `--client claude-cli`，实现仍在已发布的包中，详见[插件 README](plugins/keel-browser/README.zh-CN.md)。安装插件的同时又手工注册服务器会产生两个指向同一服务器的条目，二选一即可。
+
+### 本地构建
+
+代码和版本化模板不包含个人盘符、项目绝对路径或真实 profile ID；客户端启动所需的绝对路径由当前安装位置生成。在构建后的安装目录运行：
 
 ```powershell
 node dist/cli.js integration codex

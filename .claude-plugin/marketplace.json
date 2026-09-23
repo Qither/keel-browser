@@ -1,0 +1,15 @@
+{
+  "name": "keel-browser",
+  "description": "Local browser router that binds Claude Code to an existing MultiZen browser profile.",
+  "owner": {
+    "name": "Qither",
+    "url": "https://github.com/Qither"
+  },
+  "plugins": [
+    {
+      "name": "keel-browser",
+      "source": "./plugins/keel-browser",
+      "description": "Route browser actions through the local MultiZen claude profile."
+    }
+  ]
+}

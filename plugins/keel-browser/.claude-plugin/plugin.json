@@ -1,0 +1,13 @@
+{
+  "name": "keel-browser",
+  "description": "Route browser actions through the local MultiZen claude profile.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Qither",
+    "url": "https://github.com/Qither"
+  },
+  "homepage": "https://github.com/Qither/keel-browser#readme",
+  "license": "MIT",
+  "keywords": ["mcp", "browser", "multizen"],
+  "mcpServers": "./.mcp.json"
+}
