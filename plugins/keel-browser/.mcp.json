@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "keel_browser": {
-      "command": "npx",
-      "args": ["-y", "keel-browser@0.1.0", "mcp", "--client", "claude-cli"]
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/bin/mcp.mjs"]
     }
   }
 }
